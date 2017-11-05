@@ -88,7 +88,7 @@ TEST_CASE( "Numrics Test" )
                 CAPTURE(buffer[i]);
                 CAPTURE(phase);
 
-                auto match = buffer[i] == Approx(phase).scale(0.01) || (std::abs(buffer[i]) == Approx(1) && buffer[i] == Approx(-phase));
+                auto match = buffer[i] == Approx(phase).scale(0.1) || (std::abs(buffer[i]) == Approx(1) && buffer[i] == Approx(-phase));
                 CHECK(match);
                 phase = wrapPhase(phase + 0.1);
             }

@@ -97,11 +97,19 @@ private:
     self.log("Start running benchmarks\n");
     
     std::chrono::high_resolution_clock::time_point bp_start = std::chrono::high_resolution_clock::now();
+    
     benchpress::options bench_opts;
     
     // benchmarks to run ...
 //    bench_opts.bench("");
-    benchpress::run_benchmarks(bench_opts);
+    auto benchmarks = benchpress::registration::get_ptr()->get_benchmarks();
+    for (auto& info : benchmarks)
+    {
+        benchpress::context c(info, bench_opts);
+        auto r = c.run();
+        std::cout << std::setw(35) << std::left << info.get_name() << r.to_string() << std::endl;
+    }
+
     float duration = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::high_resolution_clock::now() - bp_start
     ).count() / 1000.f;

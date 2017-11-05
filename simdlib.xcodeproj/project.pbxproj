@@ -294,6 +294,7 @@
 					};
 					65A1F0301BEBE304003852EC = {
 						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = YR8WK29LAX;
 					};
 				};
 			};
@@ -549,6 +550,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = YR8WK29LAX;
 				GCC_FAST_MATH = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "simdlib-ios/Info.plist";
@@ -567,6 +569,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = YR8WK29LAX;
 				GCC_FAST_MATH = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "simdlib-ios/Info.plist";
