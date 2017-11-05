@@ -1,0 +1,6 @@
+[submodule "libs/catch2"]
+	path = libs/catch2
+	url = https://github.com/anyoddthing/Catch2
+[submodule "libs/benchpress"]
+	path = libs/benchpress
+	url = https://github.com/anyoddthing/benchpress.git
