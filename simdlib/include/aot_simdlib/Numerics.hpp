@@ -8,7 +8,6 @@
 
 #pragma once
 
-#include "Simd.hpp"
 #include "Numerics.inc"
 
 namespace simd

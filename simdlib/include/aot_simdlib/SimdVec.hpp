@@ -1,36 +1,12 @@
 //
-//  simdlib.h
-//  VectorialHost
+//  SimdVec.hpp
+//  simdlib
 //
-//  Created by Daniel Doubleday on 16/10/15.
-//  Copyright © 2015 Daniel Doubleday. All rights reserved.
+//  Created by Daniel Doubleday on 11/11/17.
+//  Copyright © 2017 Daniel Doubleday. All rights reserved.
 //
 
 #pragma once
-
-#ifndef VECTORIAL_FORCED
-    #if defined(__SSE__) || (_M_IX86_FP > 0) || (_M_X64 > 0)
-        #define SIMDLIB_SSE
-    #elif defined(__ARM_NEON__) 
-        #define SIMDLIB_NEON
-    #else
-        #define SIMDLIB_SCALAR
-    #endif
-#endif
-
-
-#include "simdlib/SimdCommon.hpp"
-
-#ifdef SIMDLIB_SSE
-    #include "SimdSSE.hpp"
-#elif defined(SIMDLIB_NEON)
-    #include "SimdNeon.hpp"
-#else
-//    #include <array>
-//    typedef std::array<float, 4> simd4f;
-#endif
-
-#include <initializer_list>
 
 namespace simd
 {
@@ -154,5 +130,3 @@ public:
 using Vec = SimdT<simd_t>;
 
 }
-
-
