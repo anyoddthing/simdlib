@@ -9,8 +9,7 @@
 #include <stdio.h>
 
 #include "catch.hpp"
-#include "Numerics.hpp"
-#include "AlignedBuffer.hpp"
+#include "aot_simdlib.hpp"
 
 using simdv = simd::recipes<4>;
 

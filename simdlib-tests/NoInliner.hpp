@@ -10,7 +10,7 @@
 #define NoInliner_hpp
 
 #include <stdio.h>
-#include "Simd.hpp"
+#include "aot_simdlib.hpp"
 
 struct NoInliner
 {

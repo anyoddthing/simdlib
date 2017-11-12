@@ -8,7 +8,7 @@
 
 #include <stdio.h>
 #include "catch.hpp"
-#include "Simd.hpp"
+#include "aot_simdlib.hpp"
 #include "TestHelper.hpp"
 
 using namespace simd;

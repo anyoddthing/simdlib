@@ -13,7 +13,7 @@
 #include <array>
 
 #include "catch.hpp"
-#include "Simd.hpp"
+#include "aot_simdlib.hpp"
 #include "NoInliner.hpp"
 #include "AlignedBuffer.hpp"
 
