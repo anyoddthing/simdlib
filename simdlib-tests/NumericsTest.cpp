@@ -13,6 +13,12 @@
 
 using simdv = simd::recipes<4>;
 
+// abs error: 9.53674e-07 i.e. error < 0.000`000`954
+Approx Approx20bit(double value)
+{
+    return Approx(value).margin(1.0f/(1 << 20));
+}
+
 float wrapPhase(float val)
 {
     return (val > 1.0f) ? val - 2.0f : val;
@@ -62,54 +68,132 @@ TEST_CASE( "Numrics Test" )
     SECTION("initPhase")
     {
         simd::AlignedBuffer<20> buffer;
-        simdv::initPhase<20>(buffer.ptr(), 0.01);
         
         float phase = 0;
+        float phaseIncr = 0.07f;
+        
+        simdv::initPhase<20>(buffer.ptr(), phaseIncr);
+        
         for (size_t i = 0; i < 20; ++i)
         {
             CHECK(buffer[i] == Approx(phase));
-            phase += 0.01;
+            phase = wrapPhase(phase + phaseIncr);
         }
+    }
+
+    SECTION("initPhaseWithStartValue")
+    {
+        simd::AlignedBuffer<20> buffer;
+        
+        float phase = 0.7;
+        float phaseIncr = 0.07f;
+        
+        simdv::initPhase<20>(buffer.ptr(), phaseIncr, phase);
+        
+        for (size_t i = 0; i < 20; ++i)
+        {
+            CHECK(buffer[i] == Approx(phase));
+            phase = wrapPhase(phase + phaseIncr);
+        }
+    }
+    
+    SECTION("loop")
+    {
+        LOOP_(0, 4)([&](size_t i)
+        {
+            CHECK(i <= 16 - simd::stride);
+        });
+        LOOP_(0, 8)([&](size_t i)
+        {
+            CHECK(i <= 16 - simd::stride);
+        });
+        LOOP_(0, 12)([&](size_t i)
+        {
+            CHECK(i <= 16 - simd::stride);
+        });
+        LOOP_(0, 16)([&](size_t i)
+        {
+            CHECK(i <= 16 - simd::stride);
+        });
     }
     
     SECTION("updatePhase")
     {
-        simd::AlignedBuffer<8> buffer;
-        simdv::initPhase<8>(buffer.ptr(), 0.1f);
-        
+        const size_t bufferSize = 16;
+        float phaseIncr = 0.07f;
         float phase = 0.8f;
-        for (size_t round = 0; round < 10; ++round)
+        
+        simd::AlignedBuffer<bufferSize> buffer;
+
+        simdv::initPhase<bufferSize>(buffer.ptr(), phaseIncr, phase);
+        
+        CHECK(phase == 0.8f);
+        CHECK(phaseIncr == 0.07f);
+        
+        for (size_t round = 0; round < 20; ++round)
         {
-            simdv::updatePhase<8>(buffer.ptr(), 0.1f);
-            
-            for (size_t i = 0; i < 8; ++i)
+            for (size_t i = 0; i < bufferSize; ++i)
             {
                 CAPTURE(buffer[i]);
                 CAPTURE(phase);
+                CAPTURE((buffer[i] - phase) * 1e6);
+                CAPTURE(round);
+                CAPTURE(i);
 
-                auto match = buffer[i] == Approx(phase).scale(0.1) || (std::abs(buffer[i]) == Approx(1) && buffer[i] == Approx(-phase));
+                auto match = buffer[i] == Approx20bit(phase) || (std::abs(buffer[i]) == Approx(1) && buffer[i] == Approx(-phase));
                 CHECK(match);
-                phase = wrapPhase(phase + 0.1);
+                phase = wrapPhase(phase + phaseIncr);
             }
+            
+            simdv::updatePhase<bufferSize>(buffer.ptr(), phaseIncr);
+        }
+    }
+    
+    SECTION("wrapPhase")
+    {
+        const size_t bufferSize = 32;
+        simd::AlignedBuffer<bufferSize> buffer;
+
+        float phaseIncr = (2.0f - -1.0f) / (bufferSize - 1);
+
+        for (auto i = 0; i < bufferSize; ++i)
+        {
+            buffer[i] = -1 + i * phaseIncr;
+        }
+        
+        CAPTURE(*std::min_element(buffer.data.begin(), buffer.data.end()));
+        CAPTURE(*std::max_element(buffer.data.begin(), buffer.data.end()));
+
+        simdv::wrapPhase<bufferSize>(buffer.ptr());
+
+        float phase = -1;
+        for (auto i = 0; i < bufferSize; ++i)
+        {
+            CHECK(buffer[i] == Approx20bit(phase));
+            phase = wrapPhase(phase + phaseIncr);
         }
     }
     
     SECTION("fastSin")
     {
-        simd::AlignedBuffer<8> buffer;
-        float phaseIncr = 0.05f;
-        for (float phase = -1; phase <= 1; )
+        const size_t bufferSize = 32;
+        simd::AlignedBuffer<bufferSize * 2> buffer;
+        float phaseIncr = 0.007f;
+        
+        for (float phase = -1; phase <= 2; )
         {
-            for (size_t i = 0; i < 4; ++i)
+            for (size_t i = 0; i < bufferSize; ++i)
             {
                 buffer[i] = phase += phaseIncr;
             }
             
-            simdv::fastSin<4>(buffer.ptr(4), buffer.ptr());
+            simdv::wrapPhase<bufferSize>(buffer.ptr());
+            simdv::fastSin<bufferSize>(buffer.ptr(bufferSize/2), buffer.ptr());
             
-            for (size_t i = 0; i < 4; ++i)
+            for (size_t i = 0; i < bufferSize; ++i)
             {
-                CHECK(buffer[4 + i] == Approx(std::sin(buffer[i] * simd::pi<float>)).scale(0.01));
+                CAPTURE(buffer[i]);
+                CHECK(buffer[bufferSize/2 + i] == Approx20bit(std::sin(buffer[i] * simd::pi<float>)));
             }
         }
     }

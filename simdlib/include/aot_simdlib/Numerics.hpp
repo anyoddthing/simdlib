@@ -14,6 +14,7 @@ namespace simd
 {
     template<class T>
     constexpr T pi = T(3.141592653589793238462643383279502884197169399375105820974944592307816406286);
+    constexpr size_t stride = 4;
 
     template <size_t DefaultSize>
     struct recipes
@@ -86,16 +87,16 @@ namespace simd
         SIMD_RECIPE initPhase(float *dest, Vec init, const float phaseDelta)
         {
             Vec wrapped = init - 2.0f;
-            Vec mask = wrapped > -1.0f;
+            Vec mask = wrapped >= -1.0f;
             init = mask.select(wrapped, init);
             init.store(dest);
-            if (Size > 4)
+            if (Size > simd::stride)
             {
-                LOOP_(4, Size)([&](size_t i)
+                LOOP_(simd::stride, Size)([&](size_t i)
                 {
-                    init += phaseDelta * 4;
+                    init += phaseDelta * simd::stride;
                     wrapped = init - 2.0f;
-                    mask = wrapped > -1.0f;
+                    mask = wrapped >= -1.0f;
                     init = mask.select(wrapped, init);
                     init.store(dest + i);
                 });
@@ -108,26 +109,52 @@ namespace simd
             initPhase<Size>(dest, init, phaseDelta);
         }
 
-        SIMD_RECIPE updatePhase(float *dest, const float phaseDelta)
+        SIMD_RECIPE initPhase(float *dest, const float phaseDelta, const float startPhase)
         {
-            LOOP([&](size_t i)
-            {
-                Vec v(dest + i);
-                v += phaseDelta * Size;
-                Vec wrapped = v - 2.0f;
-                Vec mask = wrapped > -1.0f;
-                v = mask.select(wrapped, v);
-                v.store(dest + i);
-            });
+            Vec init(0, phaseDelta, 2 * phaseDelta, 3 * phaseDelta);
+            initPhase<Size>(dest, init + startPhase, phaseDelta);
         }
 
+        /**
+        * Updates the phase with a constant delta.
+        *
+        * \param dest alligned dest address with values in range [-1, 1]
+        * \param phaseDelta phase delta which needs to be within [0, 0.25]
+        */
+        SIMD_RECIPE updatePhase(float *dest, const float phaseDelta)
+        {
+            Vec v(dest + Size - simd::stride);
+            v += phaseDelta * simd::stride;
+            Vec wrapped = v - 2.0f;
+            Vec mask = wrapped >= -1.0f;
+            v = mask.select(wrapped, v);
+            v.store(dest);
+            
+            if (Size > simd::stride)
+            {
+                LOOP_(simd::stride, Size)([&](size_t i)
+                {
+                    v += phaseDelta * simd::stride;
+                    wrapped = v - 2.0f;
+                    mask = wrapped >= -1.0f;
+                    v = mask.select(wrapped, v);
+                    v.store(dest + i);
+                });
+            }
+        }
+
+        /**
+        * Wraps the phase so values [-1, 2] are transformed to [-1, 1].
+        *
+        * \param dest alligned dest address with values in range [-1, 2]
+        */
         SIMD_RECIPE wrapPhase(float *dest)
         {
             LOOP([&](size_t i)
             {
                 Vec v(dest + i);
                 Vec wrapped = v - 2.0f;
-                Vec mask = wrapped > -1.0f;
+                Vec mask = wrapped >= -1.0f;
                 v = mask.select(wrapped, v);
                 v.store(dest + i);
             });
@@ -136,7 +163,7 @@ namespace simd
         template<size_t Size = DefaultSize, bool UseAmp = false>
         static inline void fastSin(float *dest, const float *phase, const float *amp = nullptr)
         {
-            for (size_t i = 0; i < Size; i += 4)
+            for (size_t i = 0; i < Size; i += simd::stride)
             {
                 // Factorial constants so code is easier to read.
 
