@@ -79,9 +79,10 @@ namespace simd
         {
             size_t i = Begin;
             action(i);
-            while (i < End)
+            i += 4;
+            for (; i < End; i += 4)
             {
-                action(i += 4);
+                action(i);
                 action(i += 4);
             }
         }
