@@ -11,6 +11,8 @@
 
 #include <array>
 
+static_assert(alignof(std::max_align_t) >= 16, "Can't guarantee simd alignment");
+
 namespace simd
 {
     template <size_t Size>
