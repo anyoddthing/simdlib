@@ -15,20 +15,20 @@
 
 namespace simd
 {
-    static inline float toFloat(uint32_t val)
+    static inline float toFloat(uint val)
     {
         union {
-            uint32_t ui;
+            uint ui;
             float f;
         } cast = { val };
         return cast.f;
     }
     
-    static inline uint32_t toUInt(float val)
+    static inline uint toUInt(float val)
     {
         union {
             float f;
-            uint32_t ui;
+            uint ui;
         } cast = { val };
         return cast.ui;
     }
@@ -37,7 +37,7 @@ namespace simd
     {
         static inline float eval(std::function<bool()> predicate)
         {
-            uint32_t val = predicate() ? 0xffffffff : 0x00000000;
+            uint val = predicate() ? 0xffffffff : 0x00000000;
             return toFloat(val);
         }
     }
@@ -47,12 +47,12 @@ namespace simd
     {
         using SimdType = T;
         
-        static uint32_t getIval(const T &simd, size_t index)
+        static uint getIval(const T &simd, size_t index)
         {
             return toUInt(simd[index]);
         }
         
-        static void setIval(T &simd, size_t index, uint32_t val)
+        static void setIval(T &simd, size_t index, uint val)
         {
             simd[index] = toFloat(val);
         }

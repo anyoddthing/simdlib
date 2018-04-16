@@ -54,12 +54,12 @@ namespace simd
     {
         using SimdType = float32x4_t;
         
-        static uint32_t getIval(const SimdType &simd, size_t index)
+        static uint getIval(const SimdType &simd, size_t index)
         {
             return toUInt(simd[index]);
         }
         
-        static void setIval(SimdType &simd, size_t index, uint32_t val)
+        static void setIval(SimdType &simd, size_t index, uint val)
         {
             simd[index] = toFloat(val);
         }        
