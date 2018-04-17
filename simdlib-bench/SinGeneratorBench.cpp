@@ -13,7 +13,7 @@
 #include <array>
 
 #include "AlignedBuffer.hpp"
-#include "Simd.hpp"
+#include "aot_simdlib.hpp"
 #include "Numerics.hpp"
 
 #define NOINLINE __attribute__ ((noinline)) static void

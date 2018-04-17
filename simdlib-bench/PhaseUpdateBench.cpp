@@ -11,9 +11,7 @@
 #include <chrono>
 #include <iostream>
 #include <array>
-#include "AlignedBuffer.hpp"
-#include "Simd.hpp"
-#include "Numerics.hpp"
+#include "aot_simdlib.hpp"
 
 #define NOINLINE __attribute__ ((noinline)) static void
 
