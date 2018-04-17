@@ -48,7 +48,6 @@
 #include "AlignedBuffer.hpp"
 #include "SimdCommon.hpp"
 
-
 #ifdef SIMDLIB_SSE
     #include "SimdSSE.hpp"
 #elif defined(SIMDLIB_NEON)
