@@ -45,7 +45,6 @@
     #endif
 #endif
 
-#include "AlignedBuffer.hpp"
 #include "SimdCommon.hpp"
 
 #ifdef SIMDLIB_SSE
@@ -59,5 +58,6 @@
 
 #include "SimdVec.hpp"
 #include "Numerics.hpp"
+#include "Memory.hpp"
 
 

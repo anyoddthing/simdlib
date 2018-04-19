@@ -53,5 +53,5 @@ TEST_CASE("asm check")
     AlignedBuffer<4 * size> buffer;
     NoInliner noinliner;
     
-    noinliner.testCrossFunctionCallOptimization<size>(buffer.ptr(0), buffer.ptr(size), buffer.ptr(2 * size), buffer.ptr(3 * size));
+    noinliner.testCrossFunctionCallOptimization<size>(buffer.data(), buffer.data() + (size), buffer.data() + (2 * size), buffer.data() + (3 * size));
 }

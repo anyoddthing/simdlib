@@ -6,14 +6,7 @@
 //  Copyright © 2015 Daniel Doubleday. All rights reserved.
 //
 
-#include "benchpress/benchpress.hpp"
-
-#include <chrono>
-#include <iostream>
-#include <array>
-#include "aot_simdlib.hpp"
-
-#define NOINLINE __attribute__ ((noinline)) static void
+#include "bench.hpp"
 
 static simd::AlignedBuffer<8> buffer {0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07};
 using simdv = simd::recipes<8>;
@@ -30,19 +23,19 @@ void phaseUpdateBaseLine(float *dest)
 
 struct PhaseUpdateBench
 {
-    NOINLINE baseLineTest(benchpress::context* ctx)
+    NOINLINE static baseLineTest(benchpress::context* ctx)
     {
         for (size_t i = 0; i < ctx->num_iterations(); ++i)
         {
-            phaseUpdateBaseLine(buffer.ptr());
+            phaseUpdateBaseLine(buffer.data());
         }
     }
 
-    NOINLINE simdTest(benchpress::context* ctx)
+    NOINLINE static simdTest(benchpress::context* ctx)
     {
         for (size_t i = 0; i < ctx->num_iterations(); ++i)
         {
-            simdv::updatePhase<8>(buffer.ptr(), 0.01f);
+            simdv::updatePhase<8>(buffer.data(), 0.01f);
         }
     }
 };

@@ -202,5 +202,29 @@ namespace simd
             }
         }
     };
+    
+    namespace math
+    {
+        static inline float sum(const float* src, size_t n)
+        {
+            Vec partial(src);
+            for (size_t i = simd::stride; i < n; i += simd::stride)
+            {
+                partial += Vec(src + i);
+            }
+            
+            return partial.sum();
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
 

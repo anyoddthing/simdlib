@@ -132,4 +132,16 @@ SECTION("select")
     t.testSelect();
 }
 
+SECTION("sum")
+{
+    OpsTest t;
+    t.testSum();
+}
+
+
+
+
+
+
+
 

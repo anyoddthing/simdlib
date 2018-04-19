@@ -31,7 +31,7 @@ TEST_CASE( "SimdT type tests" )
         buffer.set(0, 0.1, 0.2, 0.3, 0.4);
         
         Vec v;
-        v.load(buffer.ptr(0));
+        v.load(buffer.data());
         CHECK(v[0] == 0.1f);
         CHECK(v[1] == 0.2f);
         CHECK(v[2] == 0.3f);
@@ -42,7 +42,7 @@ TEST_CASE( "SimdT type tests" )
     {
         AlignedBuffer<4> buffer;
         Vec v { 0.1, 0.2, 0.3, 0.4 };
-        v.store(buffer.ptr(0));
+        v.store(buffer.data());
         
         CHECK(buffer[0] == 0.1f);
         CHECK(buffer[1] == 0.2f);

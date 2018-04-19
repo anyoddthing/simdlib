@@ -124,6 +124,11 @@ public:
         };
     }
     
+    float sum()
+    {
+        return SimdOps<T>::sum(val);
+    }
+    
     T val;
 };
 

@@ -47,12 +47,12 @@ namespace simd
     {
         using SimdType = T;
         
-        static uint getIval(const T &simd, size_t index)
+        static uint getIval(const T& simd, size_t index)
         {
             return toUInt(simd[index]);
         }
         
-        static void setIval(T &simd, size_t index, uint val)
+        static void setIval(T& simd, size_t index, uint val)
         {
             simd[index] = toFloat(val);
         }
@@ -84,7 +84,7 @@ namespace simd
             return v;
         }
         
-        static void store(const T &v, float* dest)
+        static void store(const T& v, float* dest)
         {
             dest[0] = v[0];
             dest[1] = v[1];
@@ -92,55 +92,55 @@ namespace simd
             dest[3] = v[3];
         }
         
-        static T add(const T &v1, const T &v2)
+        static T add(const T& v1, const T& v2)
         {
             T result { v1[0] + v2[0], v1[1] + v2[1], v1[2] + v2[2], v1[3] + v2[3] } ;
             return result;
         }
         
-        static T sub(const T &v1, const T &v2)
+        static T sub(const T& v1, const T& v2)
         {
             T result { v1[0] - v2[0], v1[1] - v2[1], v1[2] - v2[2], v1[3] - v2[3] } ;
             return result;
         }
         
-        static T mul(const T &v1, const T &v2)
+        static T mul(const T& v1, const T& v2)
         {
             T result { v1[0] * v2[0], v1[1] * v2[1], v1[2] * v2[2], v1[3] * v2[3] } ;
             return result;
         }
 
-        static T div(const T &v1, const T &v2)
+        static T div(const T& v1, const T& v2)
         {
             T result { v1[0] / v2[0], v1[1] / v2[1], v1[2] / v2[2], v1[3] / v2[3] } ;
             return result;
         }
 
-        static T reciprocal(const T &v)
+        static T reciprocal(const T& v)
         {
             T result { 1 / v[0], 1 / v[1], 1 / v[2], 1 / v[3] } ;
             return result;
         }
         
-        static T sqrt(const T &v)
+        static T sqrt(const T& v)
         {
             T result { std::sqrt(v[0]), std::sqrt(v[1]), std::sqrt(v[2]), std::sqrt(v[3]) } ;
             return result;
         }
     
-        static T min(const T &v1, const T &v2)
+        static T min(const T& v1, const T& v2)
         {
             T result { std::min(v1[0], v2[0]), std::min(v1[1], v2[1]), std::min(v1[2], v2[2]), std::min(v1[3], v2[3]) } ;
             return result;
         }
 
-        static T max(const T &v1, const T &v2)
+        static T max(const T& v1, const T& v2)
         {
             T result { std::max(v1[0], v2[0]), std::max(v1[1], v2[1]), std::max(v1[2], v2[2]), std::max(v1[3], v2[3]) } ;
             return result;
         }
 
-        static T cmpgt(const T &v1, const T &v2)
+        static T cmpgt(const T& v1, const T& v2)
         {
             T result {
                 detail::eval([&]() { return v1[0] > v2[0]; } ),
@@ -151,7 +151,7 @@ namespace simd
             return result;
         }
 
-        static T cmpge(const T &v1, const T &v2)
+        static T cmpge(const T& v1, const T& v2)
         {
             T result {
                 detail::eval([&]() { return v1[0] >= v2[0]; } ),
@@ -162,7 +162,7 @@ namespace simd
             return result;
         }
 
-        static T cmplt(const T &v1, const T &v2)
+        static T cmplt(const T& v1, const T& v2)
         {
             T result {
                 detail::eval([&]() { return v1[0] < v2[0]; } ),
@@ -173,7 +173,7 @@ namespace simd
             return result;
         }
 
-        static T cmple(const T &v1, const T &v2)
+        static T cmple(const T& v1, const T& v2)
         {
             T result {
                 detail::eval([&]() { return v1[0] <= v2[0]; } ),
@@ -184,7 +184,7 @@ namespace simd
             return result;
         }
         
-        static T complement(const T &v)
+        static T complement(const T& v)
         {
             T result;
             setIval(result, 0, ~ getIval(v, 0));
@@ -194,7 +194,7 @@ namespace simd
             return result;
         }
 
-        static T maskxor(const T &v, const T &mask)
+        static T maskxor(const T& v, const T& mask)
         {
             T result;
             setIval(result, 0, getIval(v, 0) ^ getIval(mask, 0));
@@ -204,7 +204,7 @@ namespace simd
             return result;
         }
         
-        static T maskor(const T &v1, const T &v2)
+        static T maskor(const T& v1, const T& v2)
         {
             T result;
             setIval(result, 0, getIval(v1, 0) | getIval(v2, 0));
@@ -214,7 +214,7 @@ namespace simd
             return result;
         }
 
-        static T maskornot(const T &v1, const T &v2)
+        static T maskornot(const T& v1, const T& v2)
         {
             T result;
             setIval(result, 0, getIval(v1, 0) | ~getIval(v2, 0));
@@ -224,7 +224,7 @@ namespace simd
             return result;
         }
 
-        static T maskand(const T &v1, const T &v2)
+        static T maskand(const T& v1, const T& v2)
         {
             T result;
             setIval(result, 0, getIval(v1, 0) & getIval(v2, 0));
@@ -234,7 +234,7 @@ namespace simd
             return result;
         }
 
-        static T maskandnot(const T &v1, const T &v2)
+        static T maskandnot(const T& v1, const T& v2)
         {
             T result;
             setIval(result, 0, getIval(v1, 0) & ~getIval(v2, 0));
@@ -244,11 +244,15 @@ namespace simd
             return result;
         }
         
-        static T select(const T &v1, const T &v2, const T &mask)
+        static T select(const T& v1, const T& v2, const T& mask)
         {
             return maskor(maskand(v1, mask), maskandnot(v2, mask));
         }
 
+        static float sum(const T& v)
+        {
+            return v[0] + v[1] + v[2] + v[3];
+        }
     };
 
 }

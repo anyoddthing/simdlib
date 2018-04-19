@@ -6,17 +6,7 @@
 //  Copyright © 2015 Daniel Doubleday. All rights reserved.
 //
 
-#include "benchpress/benchpress.hpp"
-
-#include <chrono>
-#include <iostream>
-#include <array>
-
-#include "AlignedBuffer.hpp"
-#include "aot_simdlib.hpp"
-#include "Numerics.hpp"
-
-#define NOINLINE __attribute__ ((noinline)) static void
+#include "bench.hpp"
 
 using simdv = simd::recipes<8>;
 static simd::AlignedBuffer<16> buffer { 0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07 };
@@ -63,21 +53,21 @@ struct SinGeneratorBench
     }
     
 
-    NOINLINE baseLineTest(benchpress::context* ctx)
+    NOINLINE static baseLineTest(benchpress::context* ctx)
     {
         for (size_t i = 0; i < ctx->num_iterations(); ++i)
         {
-            generateSinBaseLine<8>(buffer.ptr(8), buffer.ptr());
+            generateSinBaseLine<8>(buffer.data() + 8, buffer.data());
         }
     }
     
-    NOINLINE simdTest(benchpress::context* ctx)
+    NOINLINE static simdTest(benchpress::context* ctx)
     {
         using simds = simd::recipes<8>;
 
         for (size_t i = 0; i < ctx->num_iterations(); ++i)
         {            
-            simds::fastSin(buffer.ptr(8), buffer.ptr());
+            simds::fastSin(buffer.data() + 8, buffer.data());
         }
     }
 };

@@ -15,7 +15,6 @@
 #include "catch.hpp"
 #include "aot_simdlib.hpp"
 #include "NoInliner.hpp"
-#include "AlignedBuffer.hpp"
 
 using namespace simd;
 
@@ -27,20 +26,17 @@ struct TestHelper
     
     void setBuffer(size_t start, float v1, float v2, float v3, float v4)
     {
-        buffer.data[start + 0] = v1;
-        buffer.data[start + 1] = v2;
-        buffer.data[start + 2] = v3;
-        buffer.data[start + 3] = v4;
+        buffer.set(start, v1, v2, v3, v4);
     }
     
     float* data(size_t start)
     {
-        return buffer.data.data() + start;
+        return buffer.data() + start;
     }
     
     float valInMem(size_t index)
     {
-        return buffer.data[index];
+        return buffer[index];
     }
     
     void testLoad()
@@ -323,6 +319,12 @@ struct TestHelper
         CHECK(v[3] == Approx(0.1));
     }
 
+    void testSum()
+    {
+        SimdType v = { 0.1, 0.2, 0.3, 0.05 };
+        auto result = SimdOps<T>::sum(v);
+        CHECK(result == Approx(0.1 + 0.2 + 0.3 + 0.05));
+    }
 };
 
 #endif /* TestHelper_hpp */

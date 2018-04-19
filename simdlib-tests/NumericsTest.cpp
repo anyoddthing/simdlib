@@ -29,7 +29,7 @@ TEST_CASE( "Numrics Test" )
     SECTION("memset")
     {
         simd::AlignedBuffer<16> buffer;
-        simdv::memset<16>(buffer.ptr(), 0.3f);
+        simdv::memset<16>(buffer.data(), 0.3f);
         for (size_t i = 0; i < buffer.size(); ++i)
         {
             CHECK(buffer[i] == Approx(0.3));
@@ -39,7 +39,7 @@ TEST_CASE( "Numrics Test" )
     SECTION("memcopy")
     {
         simd::AlignedBuffer<8> buffer { 0.0f, 0.1f, 0.2f, 0.3f };
-        simdv::memcopy<4>(buffer.ptr(4), buffer.ptr());
+        simdv::memcopy<4>(buffer.data() + 4, buffer.data());
         for (size_t i = 0; i < 4; ++i)
         {
             CHECK(buffer[i] == Approx(0.1 * i));
@@ -57,7 +57,7 @@ TEST_CASE( "Numrics Test" )
         buffer.set(2 * 4, 0.1, 0.2, 0.3, 0.4);
         buffer.set(3 * 4, 0.5, 0.6, 0.7, 0.8);
         
-        simdv::add<8>(buffer.ptr(2 * 8), buffer.ptr(0), buffer.ptr(8));
+        simdv::add<8>(buffer.data() + (2 * 8), buffer.data(), buffer.data() + (8));
         
         for (size_t i = 0; i < 8; ++i)
         {
@@ -72,7 +72,7 @@ TEST_CASE( "Numrics Test" )
         float phase = 0;
         float phaseIncr = 0.07f;
         
-        simdv::initPhase<20>(buffer.ptr(), phaseIncr);
+        simdv::initPhase<20>(buffer.data(), phaseIncr);
         
         for (size_t i = 0; i < 20; ++i)
         {
@@ -88,7 +88,7 @@ TEST_CASE( "Numrics Test" )
         float phase = 0.7;
         float phaseIncr = 0.07f;
         
-        simdv::initPhase<20>(buffer.ptr(), phaseIncr, phase);
+        simdv::initPhase<20>(buffer.data(), phaseIncr, phase);
         
         for (size_t i = 0; i < 20; ++i)
         {
@@ -125,7 +125,7 @@ TEST_CASE( "Numrics Test" )
         
         simd::AlignedBuffer<bufferSize> buffer;
 
-        simdv::initPhase<bufferSize>(buffer.ptr(), phaseIncr, phase);
+        simdv::initPhase<bufferSize>(buffer.data(), phaseIncr, phase);
         
         CHECK(phase == 0.8f);
         CHECK(phaseIncr == 0.07f);
@@ -145,7 +145,7 @@ TEST_CASE( "Numrics Test" )
                 phase = wrapPhase(phase + phaseIncr);
             }
             
-            simdv::updatePhase<bufferSize>(buffer.ptr(), phaseIncr);
+            simdv::updatePhase<bufferSize>(buffer.data(), phaseIncr);
         }
     }
     
@@ -161,10 +161,10 @@ TEST_CASE( "Numrics Test" )
             buffer[i] = -1 + i * phaseIncr;
         }
         
-        CAPTURE(*std::min_element(buffer.data.begin(), buffer.data.end()));
-        CAPTURE(*std::max_element(buffer.data.begin(), buffer.data.end()));
+        CAPTURE(*std::min_element(buffer.begin(), buffer.end()));
+        CAPTURE(*std::max_element(buffer.begin(), buffer.end()));
 
-        simdv::wrapPhase<bufferSize>(buffer.ptr());
+        simdv::wrapPhase<bufferSize>(buffer.data());
 
         float phase = -1;
         for (auto i = 0; i < bufferSize; ++i)
@@ -187,8 +187,8 @@ TEST_CASE( "Numrics Test" )
                 buffer[i] = phase += phaseIncr;
             }
             
-            simdv::wrapPhase<bufferSize>(buffer.ptr());
-            simdv::fastSin<bufferSize>(buffer.ptr(bufferSize/2), buffer.ptr());
+            simdv::wrapPhase<bufferSize>(buffer.data());
+            simdv::fastSin<bufferSize>(buffer.data() + bufferSize/2, buffer.data());
             
             for (size_t i = 0; i < bufferSize; ++i)
             {
@@ -216,7 +216,7 @@ TEST_CASE( "Numrics Test" )
                 buffer[i + 4] = phase += phaseIncr;
             }
             
-            simdv::fastSin<4, true>(buffer.ptr(8), buffer.ptr(4), buffer.ptr(0));
+            simdv::fastSin<4, true>(buffer.data() + 8, buffer.data() + 4, buffer.data());
             
             for (size_t i = 0; i < 4; ++i)
             {
@@ -224,4 +224,29 @@ TEST_CASE( "Numrics Test" )
             }
         }
     }
+    
+    SECTION("sum")
+    {
+        simd::AlignedBuffer<64> buffer;
+        float random = 0;
+        for (auto i = 0; i < buffer.size(); ++i)
+        {
+            random += buffer[i] = static_cast<float>(rand()) / RAND_MAX;
+        }
+        
+        auto vecRandom = simd::math::sum(buffer.data(), 64);
+        CHECK(random == Approx(vecRandom));
+    }
+    
 }
+
+
+
+
+
+
+
+
+
+
+

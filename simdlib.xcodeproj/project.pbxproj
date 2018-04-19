@@ -10,6 +10,10 @@
 		6516647C1BEE7FCE0055F133 /* PhaseUpdateBench.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65A1F02A1BEBDE3D003852EC /* PhaseUpdateBench.cpp */; };
 		6516647E1BEE902E0055F133 /* SinGeneratorBench.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6516647D1BEE902E0055F133 /* SinGeneratorBench.cpp */; };
 		6516647F1BEE902E0055F133 /* SinGeneratorBench.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6516647D1BEE902E0055F133 /* SinGeneratorBench.cpp */; };
+		65691D2B208793F700ADEFAC /* SumBench.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65691D2A208793F700ADEFAC /* SumBench.cpp */; };
+		65691D2C208793F700ADEFAC /* SumBench.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65691D2A208793F700ADEFAC /* SumBench.cpp */; };
+		65691D332088F6E600ADEFAC /* FIRBench.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65691D322088F6E600ADEFAC /* FIRBench.cpp */; };
+		65691D342088F6E600ADEFAC /* FIRBench.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65691D322088F6E600ADEFAC /* FIRBench.cpp */; };
 		65A1F0091BEBDDBC003852EC /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65A1EFFF1BEBDDBC003852EC /* main.cpp */; };
 		65A1F00A1BEBDDBC003852EC /* NoInliner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65A1F0001BEBDDBC003852EC /* NoInliner.cpp */; };
 		65A1F00B1BEBDDBC003852EC /* NumericsTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65A1F0021BEBDDBC003852EC /* NumericsTest.cpp */; };
@@ -31,9 +35,7 @@
 		65A1F04D1BEBE422003852EC /* ScalarSimdTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65A1F0041BEBDDBC003852EC /* ScalarSimdTest.cpp */; };
 		65A1F04E1BEBE42C003852EC /* ScratchTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65A1F0051BEBDDBC003852EC /* ScratchTest.cpp */; };
 		65A1F04F1BEBE433003852EC /* SimdTTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65A1F0061BEBDDBC003852EC /* SimdTTest.cpp */; };
-		65A1F0501BEBE438003852EC /* TestHelper.hpp in Sources */ = {isa = PBXBuildFile; fileRef = 65A1F0071BEBDDBC003852EC /* TestHelper.hpp */; };
 		65A1F0511BEBE43D003852EC /* VectorSimdTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65A1F0081BEBDDBC003852EC /* VectorSimdTest.cpp */; };
-		65F923DF1C24895200F8C857 /* Numerics.inc in Sources */ = {isa = PBXBuildFile; fileRef = 65F923DA1C24895200F8C857 /* Numerics.inc */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -60,6 +62,10 @@
 /* Begin PBXFileReference section */
 		6516647D1BEE902E0055F133 /* SinGeneratorBench.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SinGeneratorBench.cpp; sourceTree = "<group>"; };
 		653F50D61FB76A980005777A /* SimdVec.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SimdVec.hpp; sourceTree = "<group>"; };
+		65691D2A208793F700ADEFAC /* SumBench.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SumBench.cpp; sourceTree = "<group>"; };
+		65691D322088F6E600ADEFAC /* FIRBench.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FIRBench.cpp; sourceTree = "<group>"; };
+		65691D352088F88700ADEFAC /* Memory.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Memory.hpp; sourceTree = "<group>"; };
+		657AC442208670A800EA14EF /* bench.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = bench.hpp; sourceTree = "<group>"; };
 		65A1EFF71BEBDD97003852EC /* simdlib-tests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "simdlib-tests"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65A1EFFF1BEBDDBC003852EC /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		65A1F0001BEBDDBC003852EC /* NoInliner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NoInliner.cpp; sourceTree = "<group>"; };
@@ -86,7 +92,6 @@
 		65A1F0441BEBE304003852EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		65A1F0481BEBE36B003852EC /* TestController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestController.h; sourceTree = "<group>"; };
 		65A1F0491BEBE36B003852EC /* TestController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TestController.mm; sourceTree = "<group>"; };
-		65F923D81C24895200F8C857 /* AlignedBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AlignedBuffer.hpp; sourceTree = "<group>"; };
 		65F923D91C24895200F8C857 /* Numerics.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Numerics.hpp; sourceTree = "<group>"; };
 		65F923DA1C24895200F8C857 /* Numerics.inc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.pascal; path = Numerics.inc; sourceTree = "<group>"; };
 		65F923DB1C24895200F8C857 /* aot_simdlib.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = aot_simdlib.hpp; sourceTree = "<group>"; };
@@ -169,9 +174,12 @@
 		65A1F0281BEBDE3D003852EC /* simdlib-bench */ = {
 			isa = PBXGroup;
 			children = (
+				657AC442208670A800EA14EF /* bench.hpp */,
 				65A1F0291BEBDE3D003852EC /* main.cpp */,
 				65A1F02A1BEBDE3D003852EC /* PhaseUpdateBench.cpp */,
 				6516647D1BEE902E0055F133 /* SinGeneratorBench.cpp */,
+				65691D2A208793F700ADEFAC /* SumBench.cpp */,
+				65691D322088F6E600ADEFAC /* FIRBench.cpp */,
 			);
 			path = "simdlib-bench";
 			sourceTree = "<group>";
@@ -213,7 +221,7 @@
 		65F923D71C24895200F8C857 /* aot_simdlib */ = {
 			isa = PBXGroup;
 			children = (
-				65F923D81C24895200F8C857 /* AlignedBuffer.hpp */,
+				65691D352088F88700ADEFAC /* Memory.hpp */,
 				65F923D91C24895200F8C857 /* Numerics.hpp */,
 				65F923DA1C24895200F8C857 /* Numerics.inc */,
 				65F923DB1C24895200F8C857 /* aot_simdlib.hpp */,
@@ -353,7 +361,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				65A1F02B1BEBDE3D003852EC /* main.cpp in Sources */,
+				65691D332088F6E600ADEFAC /* FIRBench.cpp in Sources */,
 				65A1F02C1BEBDE3D003852EC /* PhaseUpdateBench.cpp in Sources */,
+				65691D2B208793F700ADEFAC /* SumBench.cpp in Sources */,
 				6516647E1BEE902E0055F133 /* SinGeneratorBench.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -363,19 +373,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				65A1F03B1BEBE304003852EC /* ViewController.m in Sources */,
+				65691D2C208793F700ADEFAC /* SumBench.cpp in Sources */,
 				65A1F04A1BEBE36B003852EC /* TestController.mm in Sources */,
 				6516647F1BEE902E0055F133 /* SinGeneratorBench.cpp in Sources */,
 				65A1F0381BEBE304003852EC /* AppDelegate.m in Sources */,
 				65A1F0351BEBE304003852EC /* main.m in Sources */,
 				65A1F04B1BEBE415003852EC /* NoInliner.cpp in Sources */,
-				65F923DF1C24895200F8C857 /* Numerics.inc in Sources */,
 				65A1F04C1BEBE41B003852EC /* NumericsTest.cpp in Sources */,
 				65A1F04D1BEBE422003852EC /* ScalarSimdTest.cpp in Sources */,
 				65A1F04E1BEBE42C003852EC /* ScratchTest.cpp in Sources */,
+				65691D342088F6E600ADEFAC /* FIRBench.cpp in Sources */,
 				65A1F04F1BEBE433003852EC /* SimdTTest.cpp in Sources */,
 				65A1F0511BEBE43D003852EC /* VectorSimdTest.cpp in Sources */,
 				6516647C1BEE7FCE0055F133 /* PhaseUpdateBench.cpp in Sources */,
-				65A1F0501BEBE438003852EC /* TestHelper.hpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
