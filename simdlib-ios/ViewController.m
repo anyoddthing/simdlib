@@ -44,10 +44,6 @@ void logToTextView(const char* str)
     self.testController = [[TestController alloc] initWithLogger:logToTextView];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
 - (void)log:(NSString*)message
 {
     dispatch_async(dispatch_get_main_queue(), ^{
