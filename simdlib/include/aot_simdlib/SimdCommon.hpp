@@ -13,6 +13,8 @@
 #include <array>
 #include <functional>
 
+using uint = unsigned int;
+
 namespace simd
 {
     static inline float toFloat(uint val)

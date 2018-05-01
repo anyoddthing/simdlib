@@ -32,7 +32,13 @@ namespace simd
             _heap(new float[size]), _size(size)
         {}
         
-        float& operator [](size_t index) { return _heap[index]; }
+        AlignedMemory(const AlignedMemory&) = delete;
+        AlignedMemory& operator=(const AlignedMemory&) = delete;
+        
+        AlignedMemory(AlignedMemory&&) noexcept;
+        AlignedMemory& operator=(AlignedMemory&&);
+
+        float& operator [](uint index) { return _heap[index]; }
 
         iterator begin() noexcept { return _heap.get(); }
         const_iterator begin() const noexcept { return _heap.get(); }
@@ -70,9 +76,14 @@ namespace simd
             return _size;
         }
         
+        uint sizeOf()
+        {
+            return size() * sizeof(float);
+        }
+        
         void zero_mem()
         {
-            memset(data(), 0, size() * sizeof(float));
+            memset(data(), 0, sizeOf());
         }
         
     private:
@@ -80,7 +91,10 @@ namespace simd
         uint _size;
     };
     
-    template <size_t Size>
+    inline AlignedMemory::AlignedMemory(AlignedMemory&&) noexcept = default;
+    inline AlignedMemory& AlignedMemory::operator=(AlignedMemory&&) = default;
+    
+    template <uint Size>
     struct AlignedBuffer
     {
         typedef float                                 value_type;
@@ -92,12 +106,12 @@ namespace simd
         typedef const value_type*                     const_pointer;
         typedef std::reverse_iterator<iterator>       reverse_iterator;
         typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
-        typedef std::integral_constant<size_t, Size>  size_type;
+        typedef std::integral_constant<uint, Size>  size_type;
 
         AlignedBuffer() = default;
         AlignedBuffer(const std::initializer_list<float>& coefs)
         {
-            std::copy_n(coefs.begin(), std::min(Size, coefs.size()), _buffer.begin());
+            std::copy_n(coefs.begin(), std::min<uint>(Size, coefs.size()), _buffer.begin());
         }
         
         AlignedBuffer(AlignedBuffer&& other) : _buffer(std::move(other._buffer)){}
@@ -112,8 +126,8 @@ namespace simd
 
         constexpr uint size() { return Size; }
 
-        float& operator [](size_t index) { return _buffer[index]; }
-        const float& operator [](size_t index) const noexcept { return _buffer[index]; }
+        float& operator [](uint index) { return _buffer[index]; }
+        const float& operator [](uint index) const noexcept { return _buffer[index]; }
 
         iterator begin() noexcept { return _buffer.begin(); }
         const_iterator begin() const noexcept { return _buffer.begin(); }
@@ -157,7 +171,7 @@ namespace simd
             });
         }
         
-        void set(size_t start, float v1, float v2, float v3, float v4)
+        void set(uint start, float v1, float v2, float v3, float v4)
         {
             _buffer[start + 0] = v1;
             _buffer[start + 1] = v2;

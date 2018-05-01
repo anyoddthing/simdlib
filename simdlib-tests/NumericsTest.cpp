@@ -24,8 +24,19 @@ float wrapPhase(float val)
     return (val > 1.0f) ? val - 2.0f : val;
 }
 
-TEST_CASE( "Numrics Test" )
+TEST_CASE( "Numerics Test" )
 {
+    SECTION("pad")
+    {
+        for (auto i = 0; i < 18; ++i)
+        {
+            CAPTURE(i);
+            CHECK(simd::pad(i) % 4 == 0);
+            CHECK(simd::pad(i) >= i);
+            CHECK(simd::pad(i) <= (i / 4) * 4 + 4);
+        }
+    }
+    
     SECTION("memset")
     {
         simd::AlignedBuffer<16> buffer;

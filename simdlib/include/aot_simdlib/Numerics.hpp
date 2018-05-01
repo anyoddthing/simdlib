@@ -16,6 +16,11 @@ namespace simd
     constexpr T pi = T(3.141592653589793238462643383279502884197169399375105820974944592307816406286);
     constexpr size_t stride = 4;
 
+    constexpr size_t pad(size_t i)
+    {
+        return (i / 4) * 4  + (i % 4 + 3) / 4 * 4;
+    }
+    
     template <size_t DefaultSize>
     struct recipes
     {
